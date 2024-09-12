@@ -27,12 +27,10 @@ public class WeatherClient {
                 restTemplate.getForEntity(buildWeatherApiUri(), WeatherDto[].class);
 
         WeatherDto[] weatherArray = responseEntity.getBody();
-        if (!HttpStatus.OK.equals(responseEntity.getStatusCode())) {
-            throw new ServerException("날씨 데이터를 가져오는데 실패했습니다. 상태 코드: " + responseEntity.getStatusCode());
-        } else {
-            if (weatherArray == null || weatherArray.length == 0) {
-                throw new ServerException("날씨 데이터가 없습니다.");
-            }
+
+//        &&를 사용하여 두 조건이 맞을 때만 thorow를 던질 수 있게 만들었습니다
+        if (!HttpStatus.OK.equals(responseEntity.getStatusCode()) && weatherArray == null) {
+            throw new ServerException("날씨 데이터를 가져오는데 실패했습니다 상태 코드: " + responseEntity.getStatusCode() );
         }
 
         String today = getCurrentDate();
