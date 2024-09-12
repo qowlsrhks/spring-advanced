@@ -42,8 +42,7 @@ public class ManagerController {
             @PathVariable long todoId,
             @PathVariable long managerId
     ) {
-        Claims claims = jwtUtil.extractClaims(bearerToken.substring(7));
-        long userId = Long.parseLong(claims.getSubject());
+        Long userId = jwtUtil.extractUserId(bearerToken);
         managerService.deleteManager(userId, todoId, managerId);
     }
 }

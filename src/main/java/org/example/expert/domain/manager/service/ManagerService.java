@@ -1,6 +1,8 @@
 package org.example.expert.domain.manager.service;
 
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import org.example.expert.config.JwtUtil;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.manager.dto.request.ManagerSaveRequest;
@@ -28,6 +30,7 @@ public class ManagerService {
     private final ManagerRepository managerRepository;
     private final UserRepository userRepository;
     private final TodoRepository todoRepository;
+    private final JwtUtil jwtUtil;
 
     @Transactional
     public ManagerSaveResponse saveManager(AuthUser authUser, long todoId, ManagerSaveRequest managerSaveRequest) {
@@ -91,6 +94,7 @@ public class ManagerService {
         if (!ObjectUtils.nullSafeEquals(todo.getId(), manager.getTodo().getId())) {
             throw new InvalidRequestException("해당 일정에 등록된 담당자가 아닙니다.");
         }
+
 
         managerRepository.delete(manager);
     }

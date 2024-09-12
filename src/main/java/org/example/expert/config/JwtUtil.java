@@ -62,4 +62,10 @@ public class JwtUtil {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
+    public Long extractUserId(String bearerToken) {
+        Claims claims = extractClaims(bearerToken.substring(7));
+        return Long.parseLong(claims.getSubject());
+    }
+
 }
